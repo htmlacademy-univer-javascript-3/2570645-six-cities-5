@@ -5,7 +5,7 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import LoginScreen from '../../pages/login-screen/login-screen.tsx';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
-import NotFoundScreen from '../../pages/notFound-screen/notFound-screen.tsx';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 
 type AppScreenProps = {
