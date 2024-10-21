@@ -1,12 +1,13 @@
-import PlaceCard from '../../components/place-card/place-card.tsx';
 import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
+import {Offer} from '../../types/offer.ts';
+import OfferList from '../../components/offer-list/offer-list.tsx';
 
 type MainScreenProps = {
-  placesCount: number;
+  offers: Offer[];
 }
 
-function MainScreen({placesCount}: MainScreenProps): JSX.Element{
+function MainScreen({offers}: MainScreenProps): JSX.Element{
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -79,7 +80,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element{
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -95,57 +96,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element{
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                <PlaceCard isPremium
-                  imagePath={'img/apartment-01.jpg'}
-                  price={120}
-                  rating={4}
-                  title={'Beautiful &amp; luxurious apartment at great location'}
-                  type={'Apartment'}
-                  isActive={false}
-                />
-
-                <PlaceCard
-                  isPremium={false}
-                  imagePath={'img/room.jpg'}
-                  price={80}
-                  rating={4}
-                  title={'Wood and stone place'}
-                  type={'Room'}
-                  isActive
-                />
-
-                <PlaceCard
-                  isPremium={false}
-                  imagePath={'img/apartment-02.jpg'}
-                  price={132}
-                  rating={4}
-                  title={'Canal View Prinsengracht'}
-                  type={'Apartment'}
-                  isActive={false}
-                />
-
-
-                <PlaceCard
-                  isPremium
-                  imagePath={'img/apartment-03.jpg'}
-                  price={180}
-                  rating={5}
-                  title={'Nice, cozy, warm big bed apartment'}
-                  type={'Apartment'}
-                  isActive={false}
-                />
-
-                <PlaceCard
-                  isPremium={false}
-                  imagePath={'img/room.jpg'}
-                  price={80}
-                  rating={4}
-                  title={'Wood and stone place'}
-                  type={'Room'}
-                  isActive
-                />
-              </div>
+              <OfferList offers={offers} />
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
