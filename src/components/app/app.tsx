@@ -7,19 +7,20 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
+import {Offer} from '../../types/offer.ts';
 
 type AppScreenProps = {
-  placesCount: number;
+  offers: Offer[];
 }
 
-function App({placesCount}: AppScreenProps): JSX.Element{
+function App({offers}: AppScreenProps): JSX.Element{
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainScreen placesCount={placesCount}/>}
+            element={<MainScreen offers={offers}/>}
           />
           <Route
             path={AppRoute.Login}
@@ -29,15 +30,15 @@ function App({placesCount}: AppScreenProps): JSX.Element{
             path={AppRoute.Favorites}
             element={
               <PrivateRoute
-                authorizationStatus={AuthorizationStatus.NoAuth}
+                authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen />
+                <FavoritesScreen offers={offers}/>
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferScreen/>}
+            element={<OfferScreen offers={offers}/>}
           />
           <Route
             path="*"
