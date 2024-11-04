@@ -3,7 +3,7 @@ import Logo from '../../components/logo/logo.tsx';
 import {Offer} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import { Link } from 'react-router-dom';
-import HeaderNav from "../../components/header-nav/header-nav.tsx";
+import HeaderNav from '../../components/header-nav/header-nav.tsx';
 
 type FavoritesScreenProps = {
   offers: Offer[];
