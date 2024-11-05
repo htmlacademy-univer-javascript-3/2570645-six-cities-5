@@ -7,20 +7,21 @@ import {Offer} from '../../types/offer';
 type MapProps = {
   offers: Offer[];
   activeOffer: Offer | null;
+  className: string;
 };
 
-function Map({offers, activeOffer}: MapProps): JSX.Element {
+function Map({offers, activeOffer, className}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, offers[0].city.location);
 
   const defaultCustomIcon = leaflet.icon({
-    iconUrl: 'public/img/pin.svg',
+    iconUrl: '/img/pin.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40]
   });
 
   const currentCustomIcon = leaflet.icon({
-    iconUrl: 'public/img/pin-active.svg',
+    iconUrl: '/img/pin-active.svg',
     iconSize: [40, 40],
     iconAnchor: [20, 40]
   });
@@ -54,7 +55,7 @@ function Map({offers, activeOffer}: MapProps): JSX.Element {
 
   return (
     <div
-      className="cities__map map"
+      className={className}
       ref={mapRef}
     >
     </div>

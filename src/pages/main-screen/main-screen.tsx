@@ -97,6 +97,7 @@ function MainScreen({offers}: MainScreenProps): JSX.Element{
               <Map
                 offers={offers}
                 activeOffer={activeOffer}
+                className="cities__map map"
               />
             </div>
           </div>
