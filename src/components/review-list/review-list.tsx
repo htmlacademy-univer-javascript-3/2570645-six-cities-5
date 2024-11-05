@@ -6,7 +6,7 @@ type ReviewsListProps = {
 };
 
 function ReviewList({reviews}: ReviewsListProps): JSX.Element{
-  if (!reviews){
+  if (!reviews || reviews.length === 0){
     return <p style={{ textAlign: 'center', fontSize: '32px' }}>No reviews available</p>;
   }
 
