@@ -49,7 +49,7 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`${AppRoute.Offer.replace(':id', id)}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

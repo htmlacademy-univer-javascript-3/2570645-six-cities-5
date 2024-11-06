@@ -1,18 +1,18 @@
 import { Offer } from '../../types/offer.ts';
 import PlaceCard from '../place-card/place-card.tsx';
-import {useState} from 'react';
+
 type OffersListProps = {
   offers: Offer[];
+  onOfferHover?: (offer: Offer | null) => void;
 }
 
-function OfferList({offers} : OffersListProps): JSX.Element{
-  const [, setActiveOfferId] = useState<string | null>(null);
-  const handleMouseEnter = (id: string): void => {
-    setActiveOfferId(id);
+function OfferList({offers, onOfferHover} : OffersListProps): JSX.Element{
+  const handleMouseEnter = (offer: Offer): void => {
+    onOfferHover?.(offer);
   };
 
   const handleMouseLeave = (): void => {
-    setActiveOfferId(null);
+    onOfferHover?.(null);
   };
 
   return (
@@ -21,7 +21,7 @@ function OfferList({offers} : OffersListProps): JSX.Element{
         <PlaceCard
           key={offer.id}
           offer={offer}
-          onMouseEnter={() => handleMouseEnter(offer.id)}
+          onMouseEnter={() => handleMouseEnter(offer)}
           onMouseLeave={handleMouseLeave}
         />
       ))}

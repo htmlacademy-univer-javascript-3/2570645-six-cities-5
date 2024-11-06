@@ -3,12 +3,19 @@ import Logo from '../../components/logo/logo.tsx';
 import {Offer} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list.tsx';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
+import Map from '../../components/map/map.tsx';
+import {useState} from 'react';
 
 type MainScreenProps = {
   offers: Offer[];
 }
 
 function MainScreen({offers}: MainScreenProps): JSX.Element{
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
+  const handleOfferHover = (offer: Offer | null) => {
+    setActiveOffer(offer);
+  };
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -81,10 +88,17 @@ function MainScreen({offers}: MainScreenProps): JSX.Element{
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OfferList offers={offers} />
+              <OfferList
+                offers={offers}
+                onOfferHover={handleOfferHover}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                offers={offers}
+                activeOffer={activeOffer}
+                className="cities__map map"
+              />
             </div>
           </div>
         </div>

@@ -13,18 +13,17 @@ function ReviewForm(): JSX.Element {
 
   const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setFormData((prevState) => {
-      return {
-        ...prevState,
-        [name]: name === 'rating' ? parseInt(value, 10) : value,
-      };
-    });
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: name === 'rating' ? parseInt(value, 10) : value,
+    }));
   };
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    // Временная реализация отправки формы
     event.preventDefault();
 
     if (!formData.rating) {
@@ -40,20 +39,9 @@ function ReviewForm(): JSX.Element {
     setIsSubmitting(true);
     setError(null);
 
-    console.log('Form Data:', formData);
-
     setTimeout(() => {
-        if (formData.rating === 3) {
-          setIsSubmitting(false);
-          setError('An error occurred while submitting the review.');
-        } else {
-        setIsSubmitting(false);
-          setFormData({ review: '', rating: null });
-          console.log('Review submitted successfully!');
-        }
-      // setIsSubmitting(false);
-      // setFormData({ review: '', rating: null });
-      // console.log('Review submitted successfully!');
+      setIsSubmitting(false);
+      setFormData({ review: '', rating: null });
     }, 1000);
   };
 
