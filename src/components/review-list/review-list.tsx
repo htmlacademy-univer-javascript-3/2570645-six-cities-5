@@ -7,7 +7,7 @@ type ReviewsListProps = {
 
 function ReviewList({reviews}: ReviewsListProps): JSX.Element{
   if (!reviews || reviews.length === 0){
-    return <p style={{ textAlign: 'center', fontSize: '32px' }}>No reviews available</p>;
+    return <p style={{textAlign: 'center', fontSize: '32px'}}>Be the first to review</p>;
   }
 
   const sortedReviews = reviews

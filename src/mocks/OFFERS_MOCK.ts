@@ -3,10 +3,10 @@ import {Offer} from '../types/offer.ts';
 export const OFFERS_MOCK: Offer[] = [
   {
     id: '489e52ad-459b-43cb-b520-ee9e72fca07c',
-    title: 'Amazing and Extremely Central Flat',
+    title: 'Perfectly located Castro',
     type: 'apartment',
-    price: 353,
-    previewImage: 'img/apartment-01.jpg',
+    price: 496,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/12.jpg',
     city: {
       name: 'Amsterdam',
       location: {
@@ -20,16 +20,16 @@ export const OFFERS_MOCK: Offer[] = [
       longitude: 4.85309666406198,
       zoom: 16
     },
-    isFavorite: true,
+    isFavorite: false,
     isPremium: true,
-    rating: 1.7
+    rating: 3.6
   },
   {
     id: 'bf8938c6-0726-415c-9ea7-bd7ad3ca848e',
-    title: 'Perfectly located Castro',
+    title: 'The Joshua Tree House',
     type: 'room',
-    price: 270,
-    previewImage: 'img/room.jpg',
+    price: 216,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/4.jpg',
     city: {
       name: 'Amsterdam',
       location: {
@@ -43,16 +43,16 @@ export const OFFERS_MOCK: Offer[] = [
       longitude: 4.85309666406198,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: false,
     rating: 3
   },
   {
     id: '501beac5-5a19-486c-be33-a9d4ea390896',
-    title: 'The house among olive',
+    title: 'Tile House',
     type: 'apartment',
-    price: 470,
-    previewImage: 'img/apartment-02.jpg',
+    price: 266,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/19.jpg',
     city: {
       name: 'Amsterdam',
       location: {
@@ -68,14 +68,14 @@ export const OFFERS_MOCK: Offer[] = [
     },
     isFavorite: false,
     isPremium: false,
-    rating: 2.2
+    rating: 4.7
   },
   {
     id: 'afb42d53-3aac-469b-9aca-f5bdb97ab3a1',
-    title: 'Penthouse, 4-5 rooms + 5 balconies',
+    title: 'The house among olive',
     type: 'apartment',
-    price: 281,
-    previewImage: 'img/apartment-03.jpg',
+    price: 302,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/2.jpg',
     city: {
       name: 'Amsterdam',
       location: {
