@@ -1,6 +1,6 @@
-import {Offer} from '../../types/offer.ts';
-import {Link} from 'react-router-dom';
-import {AppRoute} from '../../const.ts';
+import { Offer } from '../../types/offer.ts';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const.ts';
 
 type HeaderNavProps = {
   offers: Offer[];
