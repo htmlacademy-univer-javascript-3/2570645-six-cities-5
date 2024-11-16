@@ -6,23 +6,45 @@ import HeaderNav from '../../components/header-nav/header-nav.tsx';
 import Map from '../../components/map/map.tsx';
 import {useEffect, useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
-import {Cities} from '../../const.ts';
-import { useAppSelector} from '../../hooks';
+import {Cities, SortOptions} from '../../const.ts';
+import { useAppSelector, useAppDispatch} from '../../hooks';
 import MainEmpty from './main-empty.tsx';
+import SortingOptions from '../../components/sorting-options/sorting-options.tsx';
+import {setSortOption} from '../../store/action.ts';
 
 function MainScreen(): JSX.Element{
   const offers = useAppSelector((state) => state.offersList);
   const city = useAppSelector((state) => state.city);
+  const sortOption = useAppSelector((state) => state.sortOption);
+  const dispatch = useAppDispatch();
   const [currentCityOffers, setCurrentCityOffers] = useState<Offer[]>(offers);
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   useEffect(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city);
+    switch (sortOption) {
+      case SortOptions.PriceLowToHigh:
+        filteredOffers.sort((a, b) => a.price - b.price);
+        break;
+      case SortOptions.PriceHighToLow:
+        filteredOffers.sort((a, b) => b.price - a.price);
+        break;
+      case SortOptions.TopRated:
+        filteredOffers.sort((a, b) => b.rating - a.rating);
+        break;
+      default:
+        break;
+    }
+
     setCurrentCityOffers(filteredOffers);
-  }, [city, offers]);
+  }, [city, offers, sortOption]);
 
   const handleOfferHover = (offer: Offer | null): void => {
     setActiveOfferId(offer ? offer.id : null);
+  };
+
+  const handleSortChange = (option: SortOptions) => {
+    dispatch(setSortOption(option));
   };
 
   const activeOffer = currentCityOffers.find((offer) => offer.id === activeOfferId) || null;
@@ -41,7 +63,7 @@ function MainScreen(): JSX.Element{
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main className={`page__main page__main--index ${currentCityOffers.length === 0 ? 'page__main--index-empty' : ''}`}>
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
           <section className="locations container">
@@ -54,21 +76,9 @@ function MainScreen(): JSX.Element{
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
                 <b className="places__found">{`${currentCityOffers.length} places to stay in ${city}`}</b>
-                <form className="places__sorting" action="#" method="get">
-                  <span className="places__sorting-caption">Sort by</span>
-                  <span className="places__sorting-type" tabIndex={0}>
-                    Popular
-                    <svg className="places__sorting-arrow" width="7" height="4">
-                      <use xlinkHref="#icon-arrow-select"></use>
-                    </svg>
-                  </span>
-                  <ul className="places__options places__options--custom places__options--opened">
-                    <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-                    <li className="places__option" tabIndex={0}>Price: low to high</li>
-                    <li className="places__option" tabIndex={0}>Price: high to low</li>
-                    <li className="places__option" tabIndex={0}>Top rated first</li>
-                  </ul>
-                </form>
+                <SortingOptions
+                  onSortChange={handleSortChange}
+                />
                 <OfferList
                   offers={currentCityOffers}
                   onOfferHover={handleOfferHover}

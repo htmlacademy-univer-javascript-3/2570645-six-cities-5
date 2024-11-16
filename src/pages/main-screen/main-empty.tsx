@@ -1,5 +1,3 @@
-import styles from './main-empty.module.css';
-
 type MainEmptyProps = {
   city: string;
 }
@@ -13,7 +11,7 @@ function MainEmpty({ city }: MainEmptyProps): JSX.Element {
           <p className="cities__status-description">We could not find any property available at the moment in {city}</p>
         </div>
       </section>
-      <div className={styles.citiesRightSection}></div>
+      <div className="cities__right-section"></div>
     </div>
   );
 }
