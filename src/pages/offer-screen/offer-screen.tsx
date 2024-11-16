@@ -3,23 +3,18 @@ import Logo from '../../components/logo/logo.tsx';
 import { useParams } from 'react-router-dom';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
-import {Offer} from '../../types/offer.ts';
 import ReviewList from '../../components/review-list/review-list.tsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import Map from '../../components/map/map.tsx';
 import styles from './offer-screen.module.css';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list.tsx';
-import {Review} from '../../types/review.ts';
-import {OfferDetails} from '../../types/offer-details.ts';
+import { useAppSelector} from '../../hooks';
 
-type OfferScreenProps = {
-  offers: Offer[];
-  reviews: Review[];
-  offerDetails: OfferDetails[];
-};
-
-function OfferScreen({offers, reviews, offerDetails} : OfferScreenProps): JSX.Element{
+function OfferScreen(): JSX.Element{
   const params = useParams();
+  const offers = useAppSelector((state) => state.offersList);
+  const reviews = useAppSelector((state) => state.reviews);
+  const offerDetails = useAppSelector((state) => state.offersInDetails);
   const currentOffer = offers.find((offer) => offer.id === params.id);
   const detailOffer = offerDetails.find((offer) => offer.id === params.id);
 
@@ -27,9 +22,8 @@ function OfferScreen({offers, reviews, offerDetails} : OfferScreenProps): JSX.El
     return <NotFoundScreen />;
   }
 
-  // Временная реализации
   const nearbyOffers = offers
-    .filter((offer) => offer.id !== currentOffer.id)
+    .filter((offer) => offer.id !== currentOffer.id && offer.city.name === currentOffer.city.name)
     .slice(0, 3);
 
   return (

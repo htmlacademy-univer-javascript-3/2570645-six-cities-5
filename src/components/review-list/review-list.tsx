@@ -10,7 +10,7 @@ function ReviewList({reviews}: ReviewsListProps): JSX.Element{
     return <p style={{textAlign: 'center', fontSize: '32px'}}>Be the first to review</p>;
   }
 
-  const sortedReviews = reviews
+  const sortedReviews = [...reviews]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 10);
 

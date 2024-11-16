@@ -93,4 +93,73 @@ export const OFFERS_MOCK: Offer[] = [
     isPremium: true,
     rating: 5
   },
+  {
+    id: 'f0d0f0b0-3a54-4ab5-9690-16c62136628f',
+    title: 'The Joshua Tree House',
+    type: 'house',
+    price: 958,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/4.jpg',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.858610000000006,
+      longitude: 2.330499,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 4.5
+  },
+  {
+    id: 'a9624eea-8bb8-4125-8dde-95b84d677e31',
+    title: 'Perfectly located Castro',
+    type: 'room',
+    price: 274,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/12.jpg',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.834610000000005,
+      longitude: 2.335499,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 2.4
+  },
+  {
+    id: '4a98ee8f-cbb0-49a6-bb59-66e7cfdee189',
+    title: 'Waterfront with extraordinary view',
+    type: 'house',
+    price: 795,
+    previewImage: 'https://14.design.htmlacademy.pro/static/hotel/1.jpg',
+    city: {
+      name: 'Paris',
+      location: {
+        latitude: 48.85661,
+        longitude: 2.351499,
+        zoom: 13
+      }
+    },
+    location: {
+      latitude: 48.85761,
+      longitude: 2.358499,
+      zoom: 16
+    },
+    isFavorite: false,
+    isPremium: true,
+    rating: 3.1
+  },
 ];
