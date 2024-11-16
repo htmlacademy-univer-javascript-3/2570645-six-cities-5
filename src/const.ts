@@ -16,3 +16,10 @@ export enum AuthorizationStatus {
 }
 
 export const Cities = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
+
+export enum SortOptions {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
