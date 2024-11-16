@@ -4,12 +4,12 @@ import {Offer} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import { Link } from 'react-router-dom';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
+import { useAppSelector } from '../../hooks';
+import {AppRoute} from '../../const.ts';
 
-type FavoritesScreenProps = {
-  offers: Offer[];
-}
+function FavoritesScreen(): JSX.Element{
+  const offers = useAppSelector((state) => state.offersList);
 
-function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element{
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
   const groupedOffers = favoriteOffers.reduce((acc, offer) => {
@@ -70,15 +70,15 @@ function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element{
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link className="footer__logo-link" to={AppRoute.Main}>
           <img
             className="footer__logo"
-            src="img/logo.svg"
+            src="public/img/logo.svg"
             alt="6 cities logo"
             width={64}
             height={33}
           />
-        </a>
+        </Link>
       </footer>
     </div>
   );

@@ -7,24 +7,26 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
-import {Offer} from '../../types/offer.ts';
-import {Review} from '../../types/review.ts';
-import {OfferDetails} from '../../types/offer-details.ts';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {setOffersInDetails, setOffersList, setReviews} from '../../store/action.ts';
 
-type AppScreenProps = {
-  offers: Offer[];
-  reviews: Review[];
-  offerDetails: OfferDetails[];
-}
 
-function App({offers, reviews, offerDetails}: AppScreenProps): JSX.Element{
+function App(): JSX.Element{
+  const offers = useAppSelector((state) => state.offersList);
+  const reviews = useAppSelector((state) => state.reviews);
+  const offersInDetails = useAppSelector((state) => state.offersInDetails);
+  const dispatch = useAppDispatch();
+  dispatch(setOffersList(offers));
+  dispatch(setReviews(reviews));
+  dispatch(setOffersInDetails(offersInDetails));
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
           <Route
             path={AppRoute.Main}
-            element={<MainScreen offers={offers}/>}
+            element={<MainScreen/>}
           />
           <Route
             path={AppRoute.Login}
@@ -36,13 +38,13 @@ function App({offers, reviews, offerDetails}: AppScreenProps): JSX.Element{
               <PrivateRoute
                 authorizationStatus={AuthorizationStatus.Auth}
               >
-                <FavoritesScreen offers={offers}/>
+                <FavoritesScreen/>
               </PrivateRoute>
             }
           />
           <Route
             path={AppRoute.Offer}
-            element={<OfferScreen offers={offers} offerDetails={offerDetails} reviews={reviews}/>}
+            element={<OfferScreen/>}
           />
           <Route
             path="*"

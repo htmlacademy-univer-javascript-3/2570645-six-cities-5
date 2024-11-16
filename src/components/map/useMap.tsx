@@ -8,28 +8,38 @@ function useMap(mapRef: React.MutableRefObject<HTMLElement | null>, city: Locati
   const isRenderedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (mapRef.current !== null && !isRenderedRef.current) {
-      const instance = leaflet.map(mapRef.current, {
-        center: {
-          lat: city.latitude,
-          lng: city.longitude,
-        },
-        zoom: city.zoom,
-      });
-
-      leaflet
-        .tileLayer(
-          'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    if (mapRef.current !== null) {
+      if (map) {
+        map.setView(
           {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            lat: city.latitude,
+            lng: city.longitude,
           },
-        )
-        .addTo(instance);
+          city.zoom
+        );
+      } else if (!isRenderedRef.current) {
+        const instance = leaflet.map(mapRef.current, {
+          center: {
+            lat: city.latitude,
+            lng: city.longitude,
+          },
+          zoom: city.zoom,
+        });
 
-      setMap(instance);
-      isRenderedRef.current = true;
+        leaflet
+          .tileLayer(
+            'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+            {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            },
+          )
+          .addTo(instance);
+
+        setMap(instance);
+        isRenderedRef.current = true;
+      }
     }
-  }, [mapRef, city]);
+  }, [mapRef, city, map]);
 
   return map;
 }
