@@ -8,18 +8,18 @@ import { useAppSelector } from '../../hooks';
 import {AppRoute} from '../../const.ts';
 
 function FavoritesScreen(): JSX.Element{
-  const offers = useAppSelector((state) => state.offersList);
+  const offers = useAppSelector((state) => state.offers);
 
   const favoriteOffers = offers.filter((offer) => offer.isFavorite);
 
-  const groupedOffers = favoriteOffers.reduce((acc, offer) => {
+  const groupedOffers = favoriteOffers.reduce<{ [key: string]: Offer[] }>((acc, offer) => {
     const city = offer.city.name;
     if (!acc[city]) {
       acc[city] = [];
     }
     acc[city].push(offer);
     return acc;
-  }, {} as { [key: string]: Offer[] });
+  }, {});
 
   return (
     <div className="page">
@@ -30,7 +30,7 @@ function FavoritesScreen(): JSX.Element{
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <HeaderNav offers={offers} />
+            <HeaderNav/>
           </div>
         </div>
       </header>

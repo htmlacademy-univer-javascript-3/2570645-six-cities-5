@@ -1,28 +1,46 @@
-import { createReducer } from '@reduxjs/toolkit';
-import {setOffersList, changeCity, setReviews, setOffersInDetails, setSortOption} from './action';
-import { Offer } from '../types/offer';
-import { Review } from '../types/review';
-import { OfferDetails } from '../types/offer-details.ts';
-import { OFFERS_MOCK } from '../mocks/OFFERS_MOCK.ts';
-import { REVIEWS_MOCK } from '../mocks/REVIEWS_MOCK.ts';
-import { OFFERS_DETAILS } from '../mocks/OFFERS_DETAILS.ts';
-import { SortOptions } from '../const.ts';
+import {createReducer} from '@reduxjs/toolkit';
+import {
+  changeCity, loadOfferDetails,
+  loadOffers, saveEmail,
+  sendReview,
+  setAuthorizationStatus, setError,
+  setOffersLoadingStatus,
+  setSortOption, updateOffers
+} from './action';
+import {Offer} from '../types/offer';
+import {Review} from '../types/review';
+import {OfferDetail} from '../types/offer-detail.ts';
+import {AuthorizationStatus, SortOptions} from '../const.ts';
 
 
 type InitialStateType = {
   city: string;
-  offersList: Offer[];
-  reviews: Review[];
-  offersInDetails: OfferDetails[];
+  offers: Offer[];
   sortOption: SortOptions;
+  authorizationStatus: AuthorizationStatus;
+  isOffersDataLoading: boolean;
+  error: string | null;
+  currentOffer: {
+    offerDetail: OfferDetail | null;
+    nearbyOffers: Offer[];
+    reviews: Review[];
+  };
+  userEmail: string | null;
 };
 
 const initialState: InitialStateType = {
   city: 'Paris',
-  offersList: [],
-  reviews: [],
-  offersInDetails: [],
+  offers: [],
   sortOption: SortOptions.Popular,
+  authorizationStatus: AuthorizationStatus.NoAuth,
+  isOffersDataLoading: false,
+  error: null,
+  currentOffer: {
+    offerDetail: null,
+    nearbyOffers: [],
+    reviews: []
+  },
+  userEmail: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -30,16 +48,38 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, { payload }) => {
       state.city = payload;
     })
-    .addCase(setOffersList, (state) => {
-      state.offersList = OFFERS_MOCK;
-    })
-    .addCase(setReviews, (state) => {
-      state.reviews = REVIEWS_MOCK;
-    })
-    .addCase(setOffersInDetails, (state) => {
-      state.offersInDetails = OFFERS_DETAILS;
-    })
     .addCase(setSortOption, (state, { payload }) => {
       state.sortOption = payload;
-    });
+    })
+    .addCase(loadOffers, (state, { payload }) => {
+      state.offers = payload;
+    })
+    .addCase(setOffersLoadingStatus, (state, { payload }) => {
+      state.isOffersDataLoading = payload;
+    })
+    .addCase(setAuthorizationStatus, (state, { payload }) => {
+      state.authorizationStatus = payload;
+    })
+    .addCase(setError, (state, { payload }) => {
+      state.error = payload;
+    })
+    .addCase(saveEmail, (state, { payload }) => {
+      state.userEmail = payload;
+    })
+    .addCase(loadOfferDetails, (state, { payload }) => {
+      state.currentOffer = {
+        offerDetail: payload.offerInfo,
+        nearbyOffers: payload.nearestOffers,
+        reviews: payload.reviews
+      };
+    })
+    .addCase(sendReview, (state, { payload }) => {
+      state.currentOffer.reviews.push(payload);
+    })
+    .addCase(updateOffers, (state, { payload }) => {
+      // Обновляем предложение в массиве offers
+      state.offers = state.offers.map((offer) =>
+        offer.id === payload.id ? payload : offer
+      );
+    });;
 });

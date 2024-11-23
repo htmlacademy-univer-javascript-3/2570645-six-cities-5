@@ -2,7 +2,7 @@ import { City } from './city';
 import { Location } from './location';
 import { User } from './user';
 
-export type OfferDetails = {
+export type OfferDetail = {
   id: string;
   title: string;
   type: string;

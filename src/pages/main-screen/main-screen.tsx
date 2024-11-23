@@ -13,12 +13,14 @@ import SortingOptions from '../../components/sorting-options/sorting-options.tsx
 import {setSortOption} from '../../store/action.ts';
 
 function MainScreen(): JSX.Element{
-  const offers = useAppSelector((state) => state.offersList);
+  const offers = useAppSelector((state) => state.offers);
   const city = useAppSelector((state) => state.city);
   const sortOption = useAppSelector((state) => state.sortOption);
   const dispatch = useAppDispatch();
-  const [currentCityOffers, setCurrentCityOffers] = useState<Offer[]>(offers);
+
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
+  const [currentCityOffers, setCurrentCityOffers] = useState<Offer[]>([]);
+
 
   useEffect(() => {
     const filteredOffers = offers.filter((offer) => offer.city.name === city);
@@ -36,8 +38,9 @@ function MainScreen(): JSX.Element{
         break;
     }
 
-    setCurrentCityOffers(filteredOffers);
+    setCurrentCityOffers(filteredOffers); // Исправлено
   }, [city, offers, sortOption]);
+
 
   const handleOfferHover = (offer: Offer | null): void => {
     setActiveOfferId(offer ? offer.id : null);
@@ -58,7 +61,7 @@ function MainScreen(): JSX.Element{
         <div className="container">
           <div className="header__wrapper">
             <Logo />
-            <HeaderNav offers={offers} />
+            <HeaderNav/>
           </div>
         </div>
       </header>
