@@ -159,7 +159,9 @@ function OfferScreen(): JSX.Element{
                   {reviews.length > 0 ? `Reviews · ${reviews.length}` : 'No reviews yet'}
                 </h2>
                 <ReviewList reviews={reviews}/>
-                <ReviewForm offerId={id ?? ''}/>
+                {authorizationStatus === AuthorizationStatus.Auth && (
+                  <ReviewForm offerId={id ?? ''}/>
+                )}
               </section>
             </div>
           </div>
