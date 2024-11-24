@@ -3,7 +3,7 @@ import {
   changeCity, loadOfferDetails,
   loadOffers, saveEmail,
   sendReview,
-  setAuthorizationStatus, setError,
+  setAuthorizationStatus, setError, setOfferDetailsLoadingStatus,
   setOffersLoadingStatus,
   setSortOption, updateOffers
 } from './action';
@@ -26,6 +26,7 @@ type InitialStateType = {
     reviews: Review[];
   };
   userEmail: string | null;
+  isOfferDetailsLoading: boolean;
 };
 
 const initialState: InitialStateType = {
@@ -40,7 +41,8 @@ const initialState: InitialStateType = {
     nearbyOffers: [],
     reviews: []
   },
-  userEmail: null
+  userEmail: null,
+  isOfferDetailsLoading: false
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -76,10 +78,12 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(sendReview, (state, { payload }) => {
       state.currentOffer.reviews.push(payload);
     })
+    .addCase(setOfferDetailsLoadingStatus, (state, { payload }) => {
+      state.isOfferDetailsLoading = payload;
+    })
     .addCase(updateOffers, (state, { payload }) => {
-      // Обновляем предложение в массиве offers
       state.offers = state.offers.map((offer) =>
         offer.id === payload.id ? payload : offer
       );
-    });;
+    });
 });

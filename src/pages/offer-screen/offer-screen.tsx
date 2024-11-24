@@ -21,7 +21,7 @@ function OfferScreen(): JSX.Element{
   const navigate = useNavigate();
   const offers = useAppSelector((state) => state.offers);
   const { offerDetail, nearbyOffers, reviews } = useAppSelector((state) => state.currentOffer);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const isOfferDetailsLoading = useAppSelector((state) => state.isOfferDetailsLoading);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   useEffect(() => {
     if (id) {
@@ -30,8 +30,7 @@ function OfferScreen(): JSX.Element{
   }, [id, dispatch]);
 
   const currentOffer = offers.find((offer) => offer.id === id);
-
-  if (isOffersDataLoading) {
+  if (isOfferDetailsLoading) {
     return <LoadingScreen />;
   }
 

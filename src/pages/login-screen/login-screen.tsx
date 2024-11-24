@@ -10,7 +10,7 @@ function LoginScreen(): JSX.Element{
   const city = useAppSelector((state) => state.city);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate(); // Добавляем хук для навигации
+  const navigate = useNavigate();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();

@@ -17,4 +17,4 @@ export const redirectToRoute = createAction<AppRoute>('route/redirect');
 export const sendReview = createAction<Review>('review/send');
 export const loadFavorites = createAction<Offer[]>('offers/loadFavorites');
 export const updateOffers = createAction<Offer>('offers/updateOffers');
-
+export const setOfferDetailsLoadingStatus = createAction<boolean>('data/setOfferDetailsLoadingStatus');

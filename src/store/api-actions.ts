@@ -11,7 +11,7 @@ import {
   saveEmail,
   loadOfferDetails,
   sendReview,
-  loadFavorites, updateOffers
+  loadFavorites, updateOffers, setOfferDetailsLoadingStatus
 } from './action';
 import { store } from './index';
 import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const.ts';
@@ -51,16 +51,22 @@ export const fetchOfferDataAction = createAsyncThunk<
     extra: AxiosInstance;
   }
 >('fetchOfferData', async ({ id }, { dispatch, extra: api }) => {
-  const { data: offerInfo } = await api.get<OfferDetail>(
-    `${APIRoute.Offers}/${id}`
-  );
-  const { data: nearestOffers } = await api.get<Offer[]>(
-    `${APIRoute.Offers}/${id}/nearby`
-  );
-  const { data: reviews } = await api.get<Review[]>(
-    `${APIRoute.Comments}/${id}`
-  );
-  dispatch(loadOfferDetails({ offerInfo, nearestOffers, reviews }));
+  dispatch(setOfferDetailsLoadingStatus(true));
+  try {
+    const [offerInfo, nearestOffers, reviews] = await Promise.all([
+      api.get<OfferDetail>(`${APIRoute.Offers}/${id}`),
+      api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`),
+      api.get<Review[]>(`${APIRoute.Comments}/${id}`)
+    ]);
+
+    dispatch(loadOfferDetails({
+      offerInfo: offerInfo.data,
+      nearestOffers: nearestOffers.data,
+      reviews: reviews.data
+    }));
+  } finally {
+    dispatch(setOfferDetailsLoadingStatus(false));
+  }
 });
 
 export const sendCommentAction = createAsyncThunk<

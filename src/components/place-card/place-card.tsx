@@ -17,17 +17,18 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
   const navigate = useNavigate();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const handleBookmarkClick = async () => {
-    if (authorizationStatus !== AuthorizationStatus.Auth) {
-      navigate(AppRoute.Login);
-    } else {
-      const newStatus = isFavorite ? FavouriteStatus.Remove : FavouriteStatus.Add;
-      const updatedOffer = { ...offer, isFavorite: !isFavorite };
-      dispatch(updateOffers(updatedOffer));
+  const handleBookmarkClick = () => {
+    (async () => {
+      if (authorizationStatus !== AuthorizationStatus.Auth) {
+        navigate(AppRoute.Login);
+      } else {
+        const newStatus = isFavorite ? FavouriteStatus.Remove : FavouriteStatus.Add;
+        const updatedOffer = { ...offer, isFavorite: !isFavorite };
+        dispatch(updateOffers(updatedOffer));
 
-      await dispatch(changeFavouriteStatusAction({ offerId: id, status: newStatus }));
-      await dispatch(changeFavouriteStatusAction({ offerId: id, status: newStatus }));
-    }
+        await dispatch(changeFavouriteStatusAction({ offerId: id, status: newStatus }));
+      }
+    })();
   };
 
 
