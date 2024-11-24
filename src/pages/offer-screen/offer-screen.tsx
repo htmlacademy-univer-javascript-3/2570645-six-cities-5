@@ -39,20 +39,24 @@ function OfferScreen(): JSX.Element{
     return <NotFoundScreen />;
   }
 
-  const handleBookmarkClick = async () => {
-    if (!id) {
-      navigate(AppRoute.Main);
-      return;
-    }
-    if (authorizationStatus !== AuthorizationStatus.Auth && authorizationStatus !== undefined) {
-      navigate(AppRoute.Login);
-    } else {
-      const newStatus = currentOffer.isFavorite ? FavouriteStatus.Remove : FavouriteStatus.Add;
-      const updatedOffer = { ...currentOffer, isFavorite: !currentOffer.isFavorite };
+  const handleBookmarkClick = () => {
+    const performAsyncAction = async () => {
+      if (!id) {
+        navigate(AppRoute.Main);
+        return;
+      }
+      if (authorizationStatus !== AuthorizationStatus.Auth && authorizationStatus !== undefined) {
+        navigate(AppRoute.Login);
+      } else {
+        const newStatus = currentOffer.isFavorite ? FavouriteStatus.Remove : FavouriteStatus.Add;
+        const updatedOffer = { ...currentOffer, isFavorite: !currentOffer.isFavorite };
 
-      dispatch(updateOffers(updatedOffer));
-      await dispatch(changeFavouriteStatusAction({ offerId: id, status: newStatus }));
-    }
+        dispatch(updateOffers(updatedOffer));
+        await dispatch(changeFavouriteStatusAction({ offerId: id, status: newStatus }));
+      }
+    };
+
+    performAsyncAction();
   };
 
   return (
@@ -156,7 +160,7 @@ function OfferScreen(): JSX.Element{
                   {reviews.length > 0 ? `Reviews · ${reviews.length}` : 'No reviews yet'}
                 </h2>
                 <ReviewList reviews={reviews}/>
-                <ReviewForm/>
+                <ReviewForm offerId={id ?? ''}/>
               </section>
             </div>
           </div>

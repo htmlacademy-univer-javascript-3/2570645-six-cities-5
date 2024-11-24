@@ -1,17 +1,30 @@
 import React, {useState} from 'react';
 import styles from './reviews-error.module.css';
+import {useAppDispatch} from '../../hooks';
+import {sendCommentAction} from '../../store/api-actions.ts';
+import {CommentFormData} from '../../types/comment-form-data.ts';
 
 type FormData = {
   review: string;
   rating: number | null;
 }
-function ReviewForm(): JSX.Element {
+
+type ReviewFormProps = {
+  offerId: string;
+};
+
+function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const [formData, setFormData] = useState<FormData>({
     review: '',
     rating: null
   });
 
-  const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const handleFieldChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -19,11 +32,7 @@ function ReviewForm(): JSX.Element {
     }));
   };
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // Временная реализация отправки формы
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!formData.rating) {
@@ -39,14 +48,31 @@ function ReviewForm(): JSX.Element {
     setIsSubmitting(true);
     setError(null);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const commentData: CommentFormData = {
+        comment: formData.review, // сопоставляем review с comment
+        rating: formData.rating,
+      };
+
+      await dispatch(
+        sendCommentAction({ comment: commentData, id: offerId })
+      ).unwrap();
+
       setFormData({ review: '', rating: null });
-    }, 1000);
+    } catch (err) {
+      setError('Failed to submit the review. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmitWrapper = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleSubmit(event);
   };
 
   return (
-    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmitWrapper}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         <input
