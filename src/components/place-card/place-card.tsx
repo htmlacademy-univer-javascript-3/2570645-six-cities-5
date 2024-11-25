@@ -55,7 +55,11 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button button ${offer.isFavorite && 'place-card__bookmark-button--active '}button`}
+            className={`place-card__bookmark-button button ${
+              authorizationStatus === AuthorizationStatus.Auth && offer.isFavorite
+                ? 'place-card__bookmark-button--active'
+                : ''
+            }`}
             type="button"
             onClick={handleBookmarkClick}
           >

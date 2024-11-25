@@ -97,7 +97,6 @@ export const checkAuth = createAsyncThunk<void, undefined, {
     }
   }
 );
-
 export const login = createAsyncThunk<void, AuthData, {
   dispatch: AppDispatch;
   state: State;
@@ -122,7 +121,7 @@ export const logout = createAsyncThunk<void, undefined, {
   async (_, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
+    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth))
   }
 );
 
