@@ -18,7 +18,10 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
     review: '',
     rating: null
   });
-
+  const isFormValid =
+    formData.rating !== null &&
+    formData.review.length >= 50 &&
+    formData.review.length <= 300;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,7 +53,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 
     try {
       const commentData: CommentFormData = {
-        comment: formData.review, // сопоставляем review с comment
+        comment: formData.review,
         rating: formData.rating,
       };
 
@@ -167,7 +170,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!formData.review || formData.review.length < 50 || formData.review.length > 300}
+          disabled={!isFormValid}
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
