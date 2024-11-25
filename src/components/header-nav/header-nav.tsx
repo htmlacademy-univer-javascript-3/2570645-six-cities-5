@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logout} from '../../store/api-actions.ts';
+import {useEffect} from "react";
 
 function HeaderNav(): JSX.Element{
   const dispatch = useAppDispatch();
@@ -11,10 +12,16 @@ function HeaderNav(): JSX.Element{
     state.offers.filter((offer) => offer.isFavorite).length
   );
 
-
   const handleSignOut = () => {
     dispatch(logout());
   };
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('userEmail');
+    if (savedEmail && !userEmail) {
+      dispatch({ type: 'user/saveEmail', payload: savedEmail });
+    }
+  }, [dispatch, userEmail]);
 
   return (
     <nav className="header__nav">
