@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {logout} from '../../store/api-actions.ts';
-import {useEffect} from "react";
+import {fetchFavoritesAction, logout} from '../../store/api-actions.ts';
+import {useEffect } from 'react';
 
 function HeaderNav(): JSX.Element{
   const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const userEmail = useAppSelector((state) => state.userEmail);
-  const favoritesCount = useAppSelector((state) =>
-    state.offers.filter((offer) => offer.isFavorite).length
-  );
+  const favoritesCount = useAppSelector((state) => state.favoritesCount);
+
 
   const handleSignOut = () => {
     dispatch(logout());
@@ -22,6 +21,13 @@ function HeaderNav(): JSX.Element{
       dispatch({ type: 'user/saveEmail', payload: savedEmail });
     }
   }, [dispatch, userEmail]);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [authorizationStatus, dispatch]);
+
 
   return (
     <nav className="header__nav">

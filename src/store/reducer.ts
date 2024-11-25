@@ -3,7 +3,7 @@ import {
   changeCity, loadOfferDetails,
   loadOffers, saveEmail,
   sendReview,
-  setAuthorizationStatus, setError, setOfferDetailsLoadingStatus,
+  setAuthorizationStatus, setError, setFavoritesCount, setOfferDetailsLoadingStatus,
   setOffersLoadingStatus,
   setSortOption, updateOffers
 } from './action';
@@ -27,6 +27,7 @@ type InitialStateType = {
   };
   userEmail: string | null;
   isOfferDetailsLoading: boolean;
+  favoritesCount: number;
 };
 
 const initialState: InitialStateType = {
@@ -42,7 +43,8 @@ const initialState: InitialStateType = {
     reviews: []
   },
   userEmail: null,
-  isOfferDetailsLoading: false
+  isOfferDetailsLoading: false,
+  favoritesCount: 0
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -85,5 +87,8 @@ export const reducer = createReducer(initialState, (builder) => {
       state.offers = state.offers.map((offer) =>
         offer.id === payload.id ? payload : offer
       );
+    })
+    .addCase(setFavoritesCount, (state, { payload }) => {
+      state.favoritesCount = payload;
     });
 });
