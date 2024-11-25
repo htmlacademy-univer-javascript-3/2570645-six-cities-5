@@ -1,29 +1,49 @@
 import {Helmet} from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import {FormEvent, useRef} from 'react';
+import {FormEvent, useEffect, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {login} from '../../store/api-actions.ts';
 import {Link, useNavigate} from 'react-router-dom';
+import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import styles from './login-screen.module.css';
+
 function LoginScreen(): JSX.Element{
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [errorPassword, setErrorPassword] = useState<string | null>(null);
   const city = useAppSelector((state) => state.city);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Main);
+    }
+  }, [authorizationStatus, navigate]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (loginRef.current !== null && passwordRef.current !== null) {
+      const email = loginRef.current.value;
+      const password = passwordRef.current.value;
+
+      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)/;
+      if (!passwordRegex.test(password)) {
+        setErrorPassword('The password must contain at least one letter and one digit.');
+        return;
+      }
+
       dispatch(
         login({
-          email: loginRef.current.value,
-          password: passwordRef.current.value,
+          email,
+          password,
         })
       );
+      setErrorPassword(null);
     }
-    navigate('/');
   };
 
   return (
@@ -65,6 +85,9 @@ function LoginScreen(): JSX.Element{
                   ref={passwordRef}
                   required
                 />
+                {errorPassword && (
+                  <span className={styles.errorText}>{errorPassword}</span>
+                )}
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
