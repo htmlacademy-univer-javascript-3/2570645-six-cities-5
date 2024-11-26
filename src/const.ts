@@ -23,3 +23,19 @@ export enum SortOptions {
   PriceHighToLow = 'Price: high to low',
   TopRated = 'Top rated first',
 }
+
+export enum APIRoute {
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout',
+  Comments = '/comments',
+  Favorite = 'favorite'
+}
+
+export const TIMEOUT_SHOW_ERROR = 10000;
+
+export enum FavouriteStatus {
+  Add = 1,
+  Remove = 0,
+}
+
