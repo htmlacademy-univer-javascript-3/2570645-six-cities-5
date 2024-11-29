@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {fetchFavoritesAction, logout} from '../../store/api-actions.ts';
+import {logout} from '../../store/api-actions.ts';
 import {useEffect } from 'react';
 
 function HeaderNav(): JSX.Element{
@@ -21,13 +21,6 @@ function HeaderNav(): JSX.Element{
       dispatch({ type: 'user/saveEmail', payload: savedEmail });
     }
   }, [dispatch, userEmail]);
-
-  useEffect(() => {
-    if (authorizationStatus === AuthorizationStatus.Auth) {
-      dispatch(fetchFavoritesAction());
-    }
-  }, [authorizationStatus, dispatch]);
-
 
   return (
     <nav className="header__nav">
