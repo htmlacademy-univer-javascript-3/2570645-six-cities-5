@@ -81,6 +81,19 @@ export const sendCommentAction = createAsyncThunk<
   dispatch(sendReview(review));
 });
 
+export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'offers/fetchFavorites',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<Offer[]>(`${APIRoute.Favorite}`);
+    dispatch(loadFavorites(data));
+    dispatch(setFavoritesCount(data.length));
+  }
+);
+
 export const checkAuth = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -93,6 +106,7 @@ export const checkAuth = createAsyncThunk<void, undefined, {
       try {
         await api.get(APIRoute.Login);
         dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+        dispatch(fetchFavoritesAction());
       } catch {
         dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
       }
@@ -138,18 +152,6 @@ export const clearError = createAsyncThunk(
   }
 );
 
-export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'offers/fetchFavorites',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<Offer[]>(`${APIRoute.Favorite}`);
-    dispatch(loadFavorites(data));
-    dispatch(setFavoritesCount(data.length));
-  }
-);
 
 export const changeFavouriteStatusAction = createAsyncThunk<void, FavouriteAction, {
   dispatch: AppDispatch;
