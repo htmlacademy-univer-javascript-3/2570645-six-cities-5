@@ -1,6 +1,6 @@
 import {Review} from '../../types/review.ts';
 import ReviewItem from '../review-item/review-item.tsx';
-import {memo} from "react";
+import {memo} from 'react';
 
 type ReviewsListProps = {
   reviews: Review[] | undefined;
@@ -24,8 +24,10 @@ function ReviewList({reviews}: ReviewsListProps): JSX.Element{
   );
 }
 
-const MemoizedReviewList = memo(ReviewList, (prevProps, nextProps) => {
-  return prevProps.reviews === nextProps.reviews;
-});
+const MemoizedReviewList = memo(ReviewList,
+  (
+    prevProps,
+    nextProps
+  ) => prevProps.reviews === nextProps.reviews);
 
 export default MemoizedReviewList;

@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks';
 import { changeFavouriteStatusAction } from '../../store/api-actions.ts';
 import { updateOffers } from '../../store/offers-data/offers-data';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import {memo, useCallback} from "react";
+import {memo, useCallback} from 'react';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -85,7 +85,9 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
   );
 }
 
-const MemoizedPlaceCard = memo(PlaceCard, (prevProps, nextProps) => {
-  return prevProps.offer.id === nextProps.offer.id && prevProps.offer.isFavorite === nextProps.offer.isFavorite;
-});
+const MemoizedPlaceCard = memo(PlaceCard,
+  (
+    prevProps,
+    nextProps
+  ) => prevProps.offer.id === nextProps.offer.id && prevProps.offer.isFavorite === nextProps.offer.isFavorite);
 export default MemoizedPlaceCard;
