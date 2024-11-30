@@ -127,6 +127,7 @@ export const login = createAsyncThunk<void, AuthData, {
     dispatch(saveEmail(email));
     localStorage.setItem('userEmail', email);
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+    dispatch(fetchFavoritesAction());
   }
 );
 
