@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import styles from './reviews-error.module.css';
 import {useAppDispatch} from '../../hooks';
 import {sendCommentAction} from '../../store/api-actions.ts';
@@ -179,4 +179,6 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   );
 }
 
-export default ReviewForm;
+const MemoizedReviewForm = memo(ReviewForm);
+export default MemoizedReviewForm;
+

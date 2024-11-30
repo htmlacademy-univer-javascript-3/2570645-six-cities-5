@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {memo, useCallback, useState} from 'react';
 import { SortOptions } from '../../const';
 
 type SortOptionsProps = {
@@ -8,15 +8,15 @@ function SortingOptions({ onSortChange }: SortOptionsProps): JSX.Element {
   const [selectedOption, setSelectedOption] = useState(SortOptions.Popular);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSortChange = (option: SortOptions) => {
+  const handleSortChange = useCallback((option: SortOptions) => {
     setSelectedOption(option);
     onSortChange(option);
     setIsOpen(false);
-  };
+  }, [onSortChange]);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = useCallback(() => {
     setIsOpen((prevState) => !prevState);
-  };
+  }, []);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -53,4 +53,5 @@ function SortingOptions({ onSortChange }: SortOptionsProps): JSX.Element {
   );
 }
 
-export default SortingOptions;
+const MemoizedSortingOptions = memo(SortingOptions);
+export default MemoizedSortingOptions;

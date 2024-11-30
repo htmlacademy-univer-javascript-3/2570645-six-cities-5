@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logout} from '../../store/api-actions.ts';
-import {useEffect } from 'react';
+import {memo, useEffect} from 'react';
 import { getAuthorizationStatus, getUserEmail } from '../../store/user-process/selectors';
 import { getFavoritesCount } from '../../store/offers-data/selectors';
 import { saveEmail } from '../../store/user-process/user-process';
@@ -51,4 +51,5 @@ function HeaderNav(): JSX.Element{
   );
 }
 
-export default HeaderNav;
+const MemoizedHeaderNav = memo(HeaderNav);
+export default MemoizedHeaderNav;

@@ -10,7 +10,7 @@ import styles from './offer-screen.module.css';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeFavouriteStatusAction, fetchOfferDataAction } from '../../store/api-actions.ts';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
 import { updateOffers } from '../../store/offers-data/offers-data';
 import { AppRoute, AuthorizationStatus, FavouriteStatus } from '../../const.ts';
@@ -28,6 +28,7 @@ function OfferScreen(): JSX.Element{
   const reviews = useAppSelector(getReviews);
   const isOfferDetailsLoading = useAppSelector(getOfferDetailsLoadingStatus);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const memoizedNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
 
   useEffect(() => {
     if (id) {
@@ -185,7 +186,7 @@ function OfferScreen(): JSX.Element{
         </section>
         <div className="container">
           <NearbyOffersList
-            offers={nearbyOffers.slice(0, 3)}
+            offers={memoizedNearbyOffers}
           />
         </div>
       </main>

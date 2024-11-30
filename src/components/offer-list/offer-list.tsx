@@ -1,5 +1,6 @@
 import { Offer } from '../../types/offer.ts';
 import PlaceCard from '../place-card/place-card.tsx';
+import {memo} from 'react';
 
 type OffersListProps = {
   offers: Offer[];
@@ -29,4 +30,5 @@ function OfferList({offers, onOfferHover} : OffersListProps): JSX.Element{
   );
 }
 
-export default OfferList;
+const MemoizedOfferList = memo(OfferList);
+export default MemoizedOfferList;

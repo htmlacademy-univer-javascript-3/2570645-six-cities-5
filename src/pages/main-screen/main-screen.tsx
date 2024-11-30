@@ -4,7 +4,7 @@ import {Offer} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list.tsx';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
 import Map from '../../components/map/map.tsx';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import {Cities, SortOptions} from '../../const.ts';
 import { useAppSelector, useAppDispatch} from '../../hooks';
@@ -40,16 +40,16 @@ function MainScreen(): JSX.Element{
         break;
     }
 
-    setCurrentCityOffers(filteredOffers); // Исправлено
+    setCurrentCityOffers(filteredOffers);
   }, [city, offers, sortOption]);
 
 
+  const handleSortChange = useCallback((option: SortOptions) => {
+    dispatch(setSortOption(option));
+  }, [dispatch]);
+
   const handleOfferHover = (offer: Offer | null): void => {
     setActiveOfferId(offer ? offer.id : null);
-  };
-
-  const handleSortChange = (option: SortOptions) => {
-    dispatch(setSortOption(option));
   };
 
   const activeOffer = currentCityOffers.find((offer) => offer.id === activeOfferId) || null;
