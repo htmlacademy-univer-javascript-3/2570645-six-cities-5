@@ -10,12 +10,14 @@ import {Cities, SortOptions} from '../../const.ts';
 import { useAppSelector, useAppDispatch} from '../../hooks';
 import MainEmpty from './main-empty.tsx';
 import SortingOptions from '../../components/sorting-options/sorting-options.tsx';
-import {setSortOption} from '../../store/action.ts';
+import { getOffers } from '../../store/offers-data/selectors';
+import { getCity, getSortOption } from '../../store/app-data/selectors';
+import { setSortOption } from '../../store/app-data/app-data';
 
 function MainScreen(): JSX.Element{
-  const offers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
-  const sortOption = useAppSelector((state) => state.sortOption);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
+  const sortOption = useAppSelector(getSortOption);
   const dispatch = useAppDispatch();
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);

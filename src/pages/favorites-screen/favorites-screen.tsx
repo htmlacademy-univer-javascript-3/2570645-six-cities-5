@@ -1,16 +1,15 @@
-import {Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import {Offer} from '../../types/offer.ts';
+import { Offer } from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list';
 import { Link } from 'react-router-dom';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
 import { useAppSelector } from '../../hooks';
-import {AppRoute} from '../../const.ts';
+import { AppRoute } from '../../const.ts';
+import { getFavorites } from '../../store/offers-data/selectors';
 
 function FavoritesScreen(): JSX.Element{
-  const offers = useAppSelector((state) => state.offers);
-
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const favoriteOffers = useAppSelector(getFavorites);
 
   const groupedOffers = favoriteOffers.reduce<{ [key: string]: Offer[] }>((acc, offer) => {
     const city = offer.city.name;

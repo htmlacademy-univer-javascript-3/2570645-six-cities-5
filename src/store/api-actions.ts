@@ -2,25 +2,25 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
-import {
-  loadOffers,
-  setAuthorizationStatus,
-  setError,
-  setOffersLoadingStatus,
-  saveEmail,
-  loadOfferDetails,
-  sendReview,
-  loadFavorites, updateOffers, setOfferDetailsLoadingStatus, setFavoritesCount
-} from './action';
+import {loadOfferDetails, sendReview, setOfferDetailsLoadingStatus} from './current-offer-data/current-offer-data';
 import { store } from './index';
 import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const.ts';
-import {dropToken, getToken, saveToken} from '../services/token';
+import { dropToken, getToken, saveToken } from '../services/token';
 import { UserData } from '../types/user-data';
 import { AuthData } from '../types/auth-data';
 import { Review } from '../types/review';
 import { CommentFormData } from '../types/comment-form-data.ts';
-import {OfferDetail} from '../types/offer-detail.ts';
-import {FavouriteAction} from '../types/favourite-action.ts';
+import { OfferDetail } from '../types/offer-detail.ts';
+import { FavouriteAction } from '../types/favourite-action.ts';
+import {
+  loadFavorites,
+  loadOffers,
+  setFavoritesCount,
+  setOffersLoadingStatus,
+  updateOffers
+} from './offers-data/offers-data.ts';
+import {saveEmail, setAuthorizationStatus} from './user-process/user-process.ts';
+import {setError} from './app-data/app-data.ts';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -165,5 +165,3 @@ export const changeFavouriteStatusAction = createAsyncThunk<void, FavouriteActio
     dispatch(fetchFavoritesAction());
   },
 );
-
-

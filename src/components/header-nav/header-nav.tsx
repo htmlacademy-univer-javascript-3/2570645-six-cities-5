@@ -3,12 +3,15 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logout} from '../../store/api-actions.ts';
 import {useEffect } from 'react';
+import { getAuthorizationStatus, getUserEmail } from '../../store/user-process/selectors';
+import { getFavoritesCount } from '../../store/offers-data/selectors';
+import { saveEmail } from '../../store/user-process/user-process';
 
 function HeaderNav(): JSX.Element{
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userEmail = useAppSelector((state) => state.userEmail);
-  const favoritesCount = useAppSelector((state) => state.favoritesCount);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userEmail = useAppSelector(getUserEmail);
+  const favoritesCount = useAppSelector(getFavoritesCount);
 
 
   const handleSignOut = () => {
@@ -18,7 +21,7 @@ function HeaderNav(): JSX.Element{
   useEffect(() => {
     const savedEmail = localStorage.getItem('userEmail');
     if (savedEmail && !userEmail) {
-      dispatch({ type: 'user/saveEmail', payload: savedEmail });
+      dispatch(saveEmail(savedEmail));
     }
   }, [dispatch, userEmail]);
 

@@ -2,8 +2,9 @@ import {Offer} from '../../types/offer.ts';
 import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus, FavouriteStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeFavouriteStatusAction} from '../../store/api-actions.ts';
-import {updateOffers} from '../../store/action.ts';
+import { changeFavouriteStatusAction } from '../../store/api-actions.ts';
+import { updateOffers } from '../../store/offers-data/offers-data';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -15,7 +16,7 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
   const { id, isPremium, previewImage, price, rating, title, type, isFavorite } = offer;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const handleBookmarkClick = () => {
     (async () => {
@@ -30,7 +31,6 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
       }
     })();
   };
-
 
   return (
     <article
