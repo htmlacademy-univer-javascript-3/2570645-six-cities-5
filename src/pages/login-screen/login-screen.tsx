@@ -1,18 +1,20 @@
-import {Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import {FormEvent, useEffect, useRef, useState} from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {login} from '../../store/api-actions.ts';
-import {Link, useNavigate} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const.ts';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { login } from '../../store/api-actions.ts';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const.ts';
 import styles from './login-screen.module.css';
+import { getCity } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function LoginScreen(): JSX.Element{
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
-  const city = useAppSelector((state) => state.city);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const city = useAppSelector(getCity);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

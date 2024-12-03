@@ -39,3 +39,10 @@ export enum FavouriteStatus {
   Remove = 0,
 }
 
+export enum NameSpace {
+  CurrentOffer = 'CURRENT_OFFER',
+  Offers = 'OFFERS',
+  User = 'USER',
+  App = 'APP',
+}
+

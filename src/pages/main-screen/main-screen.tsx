@@ -4,18 +4,20 @@ import {Offer} from '../../types/offer.ts';
 import OfferList from '../../components/offer-list/offer-list.tsx';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
 import Map from '../../components/map/map.tsx';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import {Cities, SortOptions} from '../../const.ts';
 import { useAppSelector, useAppDispatch} from '../../hooks';
 import MainEmpty from './main-empty.tsx';
 import SortingOptions from '../../components/sorting-options/sorting-options.tsx';
-import {setSortOption} from '../../store/action.ts';
+import { getOffers } from '../../store/offers-data/selectors';
+import { getCity, getSortOption } from '../../store/app-data/selectors';
+import { setSortOption } from '../../store/app-data/app-data';
 
 function MainScreen(): JSX.Element{
-  const offers = useAppSelector((state) => state.offers);
-  const city = useAppSelector((state) => state.city);
-  const sortOption = useAppSelector((state) => state.sortOption);
+  const offers = useAppSelector(getOffers);
+  const city = useAppSelector(getCity);
+  const sortOption = useAppSelector(getSortOption);
   const dispatch = useAppDispatch();
 
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
@@ -38,16 +40,16 @@ function MainScreen(): JSX.Element{
         break;
     }
 
-    setCurrentCityOffers(filteredOffers); // Исправлено
+    setCurrentCityOffers(filteredOffers);
   }, [city, offers, sortOption]);
 
 
+  const handleSortChange = useCallback((option: SortOptions) => {
+    dispatch(setSortOption(option));
+  }, [dispatch]);
+
   const handleOfferHover = (offer: Offer | null): void => {
     setActiveOfferId(offer ? offer.id : null);
-  };
-
-  const handleSortChange = (option: SortOptions) => {
-    dispatch(setSortOption(option));
   };
 
   const activeOffer = currentCityOffers.find((offer) => offer.id === activeOfferId) || null;

@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer.ts';
 import OfferList from '../offer-list/offer-list.tsx';
+import {memo} from 'react';
 
 type NearbyOffersListProps = {
   offers: Offer[];
@@ -16,4 +17,5 @@ function NearbyOffersList({offers}: NearbyOffersListProps): JSX.Element{
   );
 }
 
-export default NearbyOffersList;
+const MemoizedNearbyOffersList = memo(NearbyOffersList);
+export default MemoizedNearbyOffersList;

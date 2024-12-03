@@ -1,4 +1,4 @@
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, useMemo, memo} from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import useMap from './useMap';
@@ -14,17 +14,21 @@ function Map({offers, activeOffer, className}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, offers[0].city.location);
 
-  const defaultCustomIcon = leaflet.icon({
-    iconUrl: '/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40]
-  });
+  const defaultCustomIcon = useMemo(() =>
+    leaflet.icon({
+      iconUrl: '/img/pin.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40]
+    }),
+  []);
 
-  const currentCustomIcon = leaflet.icon({
-    iconUrl: '/img/pin-active.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40]
-  });
+  const currentCustomIcon = useMemo(() =>
+    leaflet.icon({
+      iconUrl: '/img/pin-active.svg',
+      iconSize: [40, 40],
+      iconAnchor: [20, 40]
+    }),
+  []);
 
   useEffect(() => {
     if (map) {
@@ -62,4 +66,5 @@ function Map({offers, activeOffer, className}: MapProps): JSX.Element {
   );
 }
 
-export default Map;
+const MemoizedMap = memo(Map);
+export default MemoizedMap;

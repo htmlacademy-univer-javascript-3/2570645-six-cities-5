@@ -2,8 +2,10 @@ import {Offer} from '../../types/offer.ts';
 import {Link, useNavigate} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus, FavouriteStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeFavouriteStatusAction} from '../../store/api-actions.ts';
-import {updateOffers} from '../../store/action.ts';
+import { changeFavouriteStatusAction } from '../../store/api-actions.ts';
+import { updateOffers } from '../../store/offers-data/offers-data';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import {memo, useCallback} from 'react';
 
 type PlaceCardProps = {
   offer: Offer;
@@ -15,9 +17,9 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
   const { id, isPremium, previewImage, price, rating, title, type, isFavorite } = offer;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const handleBookmarkClick = () => {
+  const handleBookmarkClick = useCallback(() => {
     (async () => {
       if (authorizationStatus !== AuthorizationStatus.Auth) {
         navigate(AppRoute.Login);
@@ -29,8 +31,7 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
         await dispatch(changeFavouriteStatusAction({ offerId: id, status: newStatus }));
       }
     })();
-  };
-
+  }, [authorizationStatus, navigate, isFavorite, offer, dispatch, id]);
 
   return (
     <article
@@ -84,4 +85,9 @@ function PlaceCard({offer, onMouseEnter, onMouseLeave}: PlaceCardProps): JSX.Ele
   );
 }
 
-export default PlaceCard;
+const MemoizedPlaceCard = memo(PlaceCard,
+  (
+    prevProps,
+    nextProps
+  ) => prevProps.offer.id === nextProps.offer.id && prevProps.offer.isFavorite === nextProps.offer.isFavorite);
+export default MemoizedPlaceCard;

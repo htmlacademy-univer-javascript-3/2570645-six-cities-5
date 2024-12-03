@@ -1,6 +1,6 @@
-import {Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
 import ReviewList from '../../components/review-list/review-list.tsx';
@@ -8,21 +8,28 @@ import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import Map from '../../components/map/map.tsx';
 import styles from './offer-screen.module.css';
 import NearbyOffersList from '../../components/nearby-offers-list/nearby-offers-list.tsx';
-import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeFavouriteStatusAction, fetchOfferDataAction} from '../../store/api-actions.ts';
-import {useEffect} from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeFavouriteStatusAction, fetchOfferDataAction } from '../../store/api-actions.ts';
+import { useEffect, useMemo } from 'react';
 import LoadingScreen from '../loading-screen/loading-screen.tsx';
-import {updateOffers} from '../../store/action.ts';
-import {AppRoute, AuthorizationStatus, FavouriteStatus} from '../../const.ts';
+import { updateOffers } from '../../store/offers-data/offers-data';
+import { AppRoute, AuthorizationStatus, FavouriteStatus } from '../../const.ts';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getOfferDetail, getNearbyOffers, getReviews, getOfferDetailsLoadingStatus } from '../../store/current-offer-data/selectors';
+import { getOffers } from '../../store/offers-data/selectors';
 
 function OfferScreen(): JSX.Element{
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
-  const offers = useAppSelector((state) => state.offers);
-  const { offerDetail, nearbyOffers, reviews } = useAppSelector((state) => state.currentOffer);
-  const isOfferDetailsLoading = useAppSelector((state) => state.isOfferDetailsLoading);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offers = useAppSelector(getOffers);
+  const offerDetail = useAppSelector(getOfferDetail);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
+  const reviews = useAppSelector(getReviews);
+  const isOfferDetailsLoading = useAppSelector(getOfferDetailsLoadingStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const memoizedNearbyOffers = useMemo(() => nearbyOffers.slice(0, 3), [nearbyOffers]);
+
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferDataAction({ id }));
@@ -179,7 +186,7 @@ function OfferScreen(): JSX.Element{
         </section>
         <div className="container">
           <NearbyOffersList
-            offers={nearbyOffers.slice(0, 3)}
+            offers={memoizedNearbyOffers}
           />
         </div>
       </main>
