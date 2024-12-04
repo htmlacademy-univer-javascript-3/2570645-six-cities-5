@@ -3,7 +3,7 @@ import {AppRoute, AuthorizationStatus} from '../../const.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logout} from '../../store/api-actions.ts';
 import {memo, useEffect} from 'react';
-import { getAuthorizationStatus, getUserEmail } from '../../store/user-process/selectors';
+import {getAuthorizationStatus, getAvatarUrl, getUserEmail} from '../../store/user-process/selectors';
 import { getFavoritesCount } from '../../store/offers-data/selectors';
 import { saveEmail } from '../../store/user-process/user-process';
 
@@ -12,6 +12,7 @@ function HeaderNav(): JSX.Element{
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userEmail = useAppSelector(getUserEmail);
   const favoritesCount = useAppSelector(getFavoritesCount);
+  const avatarUrl = useAppSelector(getAvatarUrl);
 
 
   const handleSignOut = () => {
@@ -30,7 +31,11 @@ function HeaderNav(): JSX.Element{
       <ul className="header__nav-list">
         <li className="header__nav-item user">
           <div className="header__nav-link header__nav-link--profile">
-            <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+            <div className="header__avatar-wrapper user__avatar-wrapper">
+              {authorizationStatus === AuthorizationStatus.Auth && avatarUrl && (
+                <img className="user__avatar" src={avatarUrl} alt="avatar"/>
+              )}
+            </div>
             {authorizationStatus === AuthorizationStatus.Auth ? (
               <>
                 <Link to={AppRoute.Favorites}>

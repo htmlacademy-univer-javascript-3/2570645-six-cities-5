@@ -19,7 +19,7 @@ import {
   setOffersLoadingStatus,
   updateOffers
 } from './offers-data/offers-data.ts';
-import {saveEmail, setAuthorizationStatus} from './user-process/user-process.ts';
+import {saveAvatarUrl, saveEmail, setAuthorizationStatus} from './user-process/user-process.ts';
 import {setError} from './app-data/app-data.ts';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
@@ -104,8 +104,10 @@ export const checkAuth = createAsyncThunk<void, undefined, {
     const token = getToken();
     if (token) {
       try {
-        await api.get(APIRoute.Login);
+        const { data } = await api.get<UserData>(APIRoute.Login);
         dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
+        dispatch(saveEmail(data.email));
+        dispatch(saveAvatarUrl(data.avatarUrl));
         dispatch(fetchFavoritesAction());
       } catch {
         dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
@@ -115,6 +117,7 @@ export const checkAuth = createAsyncThunk<void, undefined, {
     }
   }
 );
+
 export const login = createAsyncThunk<void, AuthData, {
   dispatch: AppDispatch;
   state: State;
@@ -125,7 +128,7 @@ export const login = createAsyncThunk<void, AuthData, {
     const response = await api.post<UserData>(APIRoute.Login, { email, password });
     saveToken(response.data.token);
     dispatch(saveEmail(email));
-    localStorage.setItem('userEmail', email);
+    dispatch(saveAvatarUrl(response.data.avatarUrl));
     dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
     dispatch(fetchFavoritesAction());
   }
@@ -141,7 +144,8 @@ export const logout = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-    localStorage.removeItem('userEmail');
+    dispatch(saveEmail(null));
+    dispatch(saveAvatarUrl(null));
     dispatch(loadFavorites([]));
   }
 );

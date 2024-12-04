@@ -6,6 +6,7 @@ import { UserProcess } from '../../types/state.ts';
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.NoAuth,
   email: null,
+  avatarUrl: null,
 };
 
 export const userProcess = createSlice({
@@ -15,10 +16,13 @@ export const userProcess = createSlice({
     setAuthorizationStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
       state.authorizationStatus = action.payload;
     },
-    saveEmail: (state, action: PayloadAction<string>) => {
+    saveEmail: (state, action: PayloadAction<string | null>) => {
       state.email = action.payload;
+    },
+    saveAvatarUrl: (state, action: PayloadAction<string | null>) => {
+      state.avatarUrl = action.payload;
     },
   },
 });
 
-export const { setAuthorizationStatus, saveEmail } = userProcess.actions;
+export const { setAuthorizationStatus, saveEmail, saveAvatarUrl } = userProcess.actions;
