@@ -66,5 +66,9 @@ function Map({offers, activeOffer, className}: MapProps): JSX.Element {
   );
 }
 
-const MemoizedMap = memo(Map);
+const MemoizedMap = memo(Map, (prevProps, nextProps) =>
+  prevProps.activeOffer?.id === nextProps.activeOffer?.id &&
+  prevProps.offers.map((offer) => offer.id).join() === nextProps.offers.map((offer) => offer.id).join()
+);
+
 export default MemoizedMap;

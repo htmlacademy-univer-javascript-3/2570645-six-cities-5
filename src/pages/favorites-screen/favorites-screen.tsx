@@ -5,8 +5,8 @@ import OfferList from '../../components/offer-list/offer-list';
 import { Link } from 'react-router-dom';
 import HeaderNav from '../../components/header-nav/header-nav.tsx';
 import { useAppSelector } from '../../hooks';
-import { AppRoute } from '../../const.ts';
 import { getFavorites } from '../../store/offers-data/selectors';
+import FooterLogo from '../../components/footer-logo/footer-logo.tsx';
 
 function FavoritesScreen(): JSX.Element{
   const favoriteOffers = useAppSelector(getFavorites);
@@ -68,17 +68,7 @@ function FavoritesScreen(): JSX.Element{
           )}
         </div>
       </main>
-      <footer className="footer container">
-        <Link className="footer__logo-link" to={AppRoute.Main}>
-          <img
-            className="footer__logo"
-            src="public/img/logo.svg"
-            alt="6 cities logo"
-            width={64}
-            height={33}
-          />
-        </Link>
-      </footer>
+      <FooterLogo />
     </div>
   );
 }
