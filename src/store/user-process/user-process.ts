@@ -16,10 +16,10 @@ export const userProcess = createSlice({
     setAuthorizationStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
       state.authorizationStatus = action.payload;
     },
-    saveEmail: (state, action: PayloadAction<string>) => {
+    saveEmail: (state, action: PayloadAction<string | null>) => {
       state.email = action.payload;
     },
-    saveAvatarUrl: (state, action: PayloadAction<string>) => {
+    saveAvatarUrl: (state, action: PayloadAction<string | null>) => {
       state.avatarUrl = action.payload;
     },
   },
