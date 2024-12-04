@@ -24,6 +24,7 @@ export type OffersData = {
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
   email: string | null;
+  avatarUrl: string | null;
 };
 
 export type AppData = {
