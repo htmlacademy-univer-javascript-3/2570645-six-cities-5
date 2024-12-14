@@ -1,18 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 import Logo from '../../components/logo/logo.tsx';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { login } from '../../store/api-actions.ts';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
-import styles from './login-screen.module.css';
 import { getCity } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import {toast} from 'react-toastify';
 
 function LoginScreen(): JSX.Element{
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const [errorPassword, setErrorPassword] = useState<string | null>(null);
   const city = useAppSelector(getCity);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
@@ -34,7 +33,7 @@ function LoginScreen(): JSX.Element{
 
       const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)/;
       if (!passwordRegex.test(password)) {
-        setErrorPassword('The password must contain at least one letter and one digit.');
+        toast.warn('The password must contain at least one letter and one digit.');
         return;
       }
 
@@ -44,7 +43,6 @@ function LoginScreen(): JSX.Element{
           password,
         })
       );
-      setErrorPassword(null);
     }
   };
 
@@ -87,9 +85,6 @@ function LoginScreen(): JSX.Element{
                   ref={passwordRef}
                   required
                 />
-                {errorPassword && (
-                  <span className={styles.errorText}>{errorPassword}</span>
-                )}
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

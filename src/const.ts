@@ -32,8 +32,6 @@ export enum APIRoute {
   Favorite = 'favorite'
 }
 
-export const TIMEOUT_SHOW_ERROR = 10000;
-
 export enum FavouriteStatus {
   Add = 1,
   Remove = 0,

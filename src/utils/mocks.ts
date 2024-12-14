@@ -10,6 +10,7 @@ import {Action} from 'redux';
 
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
 
 export function makeFakeOffer(): Offer {
   return {
