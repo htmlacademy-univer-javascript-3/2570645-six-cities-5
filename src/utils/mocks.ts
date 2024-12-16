@@ -7,19 +7,20 @@ import {ThunkDispatch} from '@reduxjs/toolkit';
 import {State} from '../types/state.ts';
 import {createAPI} from '../services/api.ts';
 import {Action} from 'redux';
-
+import {AuthorizationStatus, Cities, SortOptions} from '../const.ts';
 
 export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
 export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
 
 export function makeFakeOffer(): Offer {
+  const randomCity = Cities[Math.floor(Math.random() * Cities.length)];
   return {
     id: name.title(),
     title: name.title(),
     type: 'apartment',
     price: Math.floor(Math.random() * 1000),
     city: {
-      name: name.title(),
+      name: randomCity,
       location: {
         latitude: Math.random() * 90,
         longitude: Math.random() * 180,
@@ -67,3 +68,32 @@ export function makeFakeReview(): Review {
     rating: Math.floor(Math.random() * 5)
   };
 }
+
+export const makeFakeStore = (initialState?: Partial<State>): State => ({
+  APP: {
+    city: 'Paris',
+    sortOption: SortOptions.Popular,
+    error: null,
+    ...initialState?.APP
+  },
+  CURRENT_OFFER: {
+    offerDetail: null,
+    nearbyOffers: [],
+    reviews: [],
+    isLoading: false,
+    ...initialState?.CURRENT_OFFER
+  },
+  OFFERS: {
+    offers: [],
+    favorites: [],
+    isLoading: false,
+    favoritesCount: 0,
+    ...initialState?.OFFERS
+  },
+  USER: {
+    authorizationStatus: AuthorizationStatus.NoAuth,
+    email: null,
+    avatarUrl: null,
+    ...initialState?.USER
+  }
+});
