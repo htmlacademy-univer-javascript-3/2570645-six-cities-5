@@ -1,7 +1,3 @@
-export const Setting = {
-  placesCount: 312
-};
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -31,8 +27,6 @@ export enum APIRoute {
   Comments = '/comments',
   Favorite = 'favorite'
 }
-
-export const TIMEOUT_SHOW_ERROR = 10000;
 
 export enum FavouriteStatus {
   Add = 1,

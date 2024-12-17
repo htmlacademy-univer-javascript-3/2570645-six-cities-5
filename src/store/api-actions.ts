@@ -3,8 +3,7 @@ import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { Offer } from '../types/offer';
 import {loadOfferDetails, sendReview, setOfferDetailsLoadingStatus} from './current-offer-data/current-offer-data';
-import { store } from './index';
-import { APIRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const.ts';
+import { APIRoute, AuthorizationStatus } from '../const.ts';
 import { dropToken, getToken, saveToken } from '../services/token';
 import { UserData } from '../types/user-data';
 import { AuthData } from '../types/auth-data';
@@ -20,7 +19,6 @@ import {
   updateOffers
 } from './offers-data/offers-data.ts';
 import {saveAvatarUrl, saveEmail, setAuthorizationStatus} from './user-process/user-process.ts';
-import {setError} from './app-data/app-data.ts';
 
 export const fetchOffers = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -147,13 +145,6 @@ export const logout = createAsyncThunk<void, undefined, {
     dispatch(saveEmail(null));
     dispatch(saveAvatarUrl(null));
     dispatch(loadFavorites([]));
-  }
-);
-
-export const clearError = createAsyncThunk(
-  'clearError',
-  () => {
-    setTimeout(() => store.dispatch(setError(null)), TIMEOUT_SHOW_ERROR);
   }
 );
 

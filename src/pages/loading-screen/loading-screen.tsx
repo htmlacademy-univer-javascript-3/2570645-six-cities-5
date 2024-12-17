@@ -7,9 +7,9 @@ function LoadingScreen(): JSX.Element {
         <span className={styles.loading}>Loading</span>
       </div>
       <div className={styles.dotsContainer}>
-        <div className={styles.dot}></div>
-        <div className={styles.dot}></div>
-        <div className={styles.dot}></div>
+        <div className={styles.dot} data-testid="loading-dot"></div>
+        <div className={styles.dot} data-testid="loading-dot"></div>
+        <div className={styles.dot} data-testid="loading-dot"></div>
       </div>
     </div>
   );
