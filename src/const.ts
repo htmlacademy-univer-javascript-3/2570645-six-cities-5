@@ -1,7 +1,3 @@
-export const Setting = {
-  placesCount: 312
-};
-
 export enum AppRoute {
   Main = '/',
   Login = '/login',
