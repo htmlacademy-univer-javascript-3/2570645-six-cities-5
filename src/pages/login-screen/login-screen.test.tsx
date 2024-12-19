@@ -21,7 +21,6 @@ describe('LoginScreen Component', () => {
         APP: {
           city: 'Paris',
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
@@ -50,7 +49,6 @@ describe('LoginScreen Component', () => {
         APP: {
           city: 'Paris',
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
@@ -62,6 +60,6 @@ describe('LoginScreen Component', () => {
     fireEvent.click(screen.getByRole('button', { name: /Sign in/i }));
 
     const actions = mockStore.getActions();
-    expect(actions[0].type).toBe('user/login/pending');
+    expect(actions[1].type).toBe('user/login/pending');
   });
 });
