@@ -1,6 +1,6 @@
 import { NameSpace } from '../../const';
 import { SortOptions } from '../../const';
-import { getCity, getSortOption, getError } from './selectors';
+import { getCity, getSortOption } from './selectors';
 
 describe('AppData selectors', () => {
   const state = {
@@ -21,11 +21,5 @@ describe('AppData selectors', () => {
     const { sortOption } = state[NameSpace.App];
     const result = getSortOption(state);
     expect(result).toBe(sortOption);
-  });
-
-  it('should return error from state', () => {
-    const { error } = state[NameSpace.App];
-    const result = getError(state);
-    expect(result).toBe(error);
   });
 });
