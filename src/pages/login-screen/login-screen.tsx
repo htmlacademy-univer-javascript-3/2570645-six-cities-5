@@ -4,10 +4,11 @@ import { FormEvent, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { login } from '../../store/api-actions.ts';
 import { Link, useNavigate } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import {AppRoute, AuthorizationStatus, Cities} from '../../const.ts';
 import { getCity } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import {toast} from 'react-toastify';
+import {changeCity} from '../../store/app-data/app-data.ts';
 
 function LoginScreen(): JSX.Element{
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -23,6 +24,15 @@ function LoginScreen(): JSX.Element{
       navigate(AppRoute.Main);
     }
   }, [authorizationStatus, navigate]);
+
+  useEffect(() => {
+    const randomCity = Cities[Math.floor(Math.random() * Cities.length)];
+    dispatch(changeCity(randomCity));
+
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(AppRoute.Main);
+    }
+  }, [authorizationStatus, navigate, dispatch]);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
