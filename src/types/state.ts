@@ -30,5 +30,4 @@ export type UserProcess = {
 export type AppData = {
   city: string;
   sortOption: SortOptions;
-  error: string | null;
 };

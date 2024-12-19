@@ -5,7 +5,6 @@ import { NameSpace, SortOptions } from '../../const.ts';
 const initialState: AppData = {
   city: 'Paris',
   sortOption: SortOptions.Popular,
-  error: null,
 };
 
 export const appData = createSlice({
@@ -18,10 +17,7 @@ export const appData = createSlice({
     setSortOption: (state, action: PayloadAction<SortOptions>) => {
       state.sortOption = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
-      state.error = action.payload;
-    },
   },
 });
 
-export const { changeCity, setSortOption, setError } = appData.actions;
+export const { changeCity, setSortOption } = appData.actions;
