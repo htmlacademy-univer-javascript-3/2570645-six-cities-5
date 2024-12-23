@@ -73,7 +73,6 @@ export const makeFakeStore = (initialState?: Partial<State>): State => ({
   APP: {
     city: 'Paris',
     sortOption: SortOptions.Popular,
-    error: null,
     ...initialState?.APP
   },
   CURRENT_OFFER: {
