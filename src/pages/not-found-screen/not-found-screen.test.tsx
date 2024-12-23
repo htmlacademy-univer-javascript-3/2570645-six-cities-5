@@ -1,9 +1,14 @@
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import NotFoundScreen from './not-found-screen';
 
 describe('Component: NotFoundScreen', () => {
   it('should render correctly', () => {
-    render(<NotFoundScreen />);
+    render(
+      <MemoryRouter>
+        <NotFoundScreen />
+      </MemoryRouter>
+    );
 
     expect(screen.getByText('404')).toBeInTheDocument();
     expect(screen.getByText('Oops! Looks like you\'re lost in the city.')).toBeInTheDocument();
@@ -16,11 +21,15 @@ describe('Component: NotFoundScreen', () => {
 
     const homeButton = screen.getByText('Go to homepage');
     expect(homeButton).toBeInTheDocument();
-    expect(homeButton).toHaveAttribute('href', '/');
+    expect(homeButton.closest('a')).toHaveAttribute('href', '/');
   });
 
   it('should have correct aria labels', () => {
-    render(<NotFoundScreen />);
+    render(
+      <MemoryRouter>
+        <NotFoundScreen />
+      </MemoryRouter>
+    );
 
     const pinEmoji = screen.getByRole('img', { name: 'pin' });
     expect(pinEmoji).toBeInTheDocument();
