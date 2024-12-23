@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import { createMemoryHistory, MemoryHistory } from 'history';
-import {withHistory, withStore} from '../../utils/mock-component'; // Note: No withHistory here
+import {withHistory, withStore} from '../../utils/mock-component';
 import {AppRoute, AuthorizationStatus, SortOptions} from '../../const';
 import App from './app';
 import {makeFakeOffer, makeFakeStore} from '../../utils/mocks';
@@ -35,7 +35,6 @@ describe('Application Routing', () => {
         APP: {
           city: cityName,
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
@@ -63,7 +62,6 @@ describe('Application Routing', () => {
         APP: {
           city: cityName,
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
@@ -201,7 +199,6 @@ describe('Application Routing', () => {
         APP: {
           city: 'Paris',
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
@@ -210,7 +207,6 @@ describe('Application Routing', () => {
 
     render(withStoreComponent);
 
-    // Test if 404 page content is displayed
     expect(screen.getByText(/404/)).toBeInTheDocument();
     expect(screen.getByText(/Oops! Looks like you're lost in the city./)).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /pin/i })).toBeInTheDocument();

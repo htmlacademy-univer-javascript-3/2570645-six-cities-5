@@ -8,7 +8,7 @@ function FooterLogo(): JSX.Element {
       <Link className="footer__logo-link" to={AppRoute.Main}>
         <img
           className="footer__logo"
-          src="public/img/logo.svg"
+          src="/img/logo.svg"
           alt="6 cities logo"
           width={64}
           height={33}

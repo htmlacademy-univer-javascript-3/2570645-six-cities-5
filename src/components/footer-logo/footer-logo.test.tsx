@@ -5,7 +5,7 @@ import MemoizedFooterLogo from './footer-logo'; // Путь к компонен�
 describe('Component: FooterLogo', () => {
   it('should render correctly', () => {
     const expectedAltText = '6 cities logo';
-    const expectedSrc = 'public/img/logo.svg';
+    const expectedSrc = '/img/logo.svg';
     const expectedWidth = 64;
     const expectedHeight = 33;
 

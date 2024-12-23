@@ -27,7 +27,6 @@ describe('MainScreen Component', () => {
         APP: {
           city: 'Paris',
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
@@ -61,7 +60,6 @@ describe('MainScreen Component', () => {
         APP: {
           city: offer1.city.name,
           sortOption: SortOptions.Popular,
-          error: null,
         },
       })
     );
