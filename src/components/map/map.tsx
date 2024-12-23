@@ -1,7 +1,7 @@
 import {useRef, useEffect, useMemo, memo} from 'react';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import useMap from './useMap';
+import useMap from '../../hooks/useMap/useMap.tsx';
 import {Offer} from '../../types/offer';
 
 type MapProps = {

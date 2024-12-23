@@ -28,7 +28,6 @@ describe('Component: CitiesList', () => {
       </Provider>
     );
 
-    // Check that all cities are rendered
     Cities.forEach((city) => {
       expect(screen.getByText(city)).toBeInTheDocument();
     });
